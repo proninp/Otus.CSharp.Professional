@@ -2,8 +2,6 @@
 
 Это репозиторий курса ["OTUS C# Developer. Professional"](https://otus.ru/lessons/csharp-professional/)
 
-This is educational repository for Otus C# Professional course
-
 [Home Works](HomeWorks/)
 
 [Project](https://github.com/DotNetRunners/FinanceManager)
