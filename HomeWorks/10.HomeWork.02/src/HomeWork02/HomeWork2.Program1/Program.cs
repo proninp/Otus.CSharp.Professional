@@ -30,8 +30,8 @@ async Task ReadSpacesAsync(string[] files)
     
         tasks.Add(Task.Run(() =>
         {
-            var spaces = CountSpaces(path);
-            Console.WriteLine($"Пробелов в файле {file}: {spaces}");
+            var spacesCount = CountSpaces(path);
+            Console.WriteLine($"Пробелов в файле {file}: {spacesCount}");
         }));
     }
 
@@ -44,8 +44,8 @@ void ReadSpaces(string[] files)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "Resources", file);
     
-        var spaces = CountSpaces(path);
-        Console.WriteLine($"Пробелов в файле {file}: {spaces}");
+        var spacesCount = CountSpaces(path);
+        Console.WriteLine($"Пробелов в файле {file}: {spacesCount}");
     }
 }
 
