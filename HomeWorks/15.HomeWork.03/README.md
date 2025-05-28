@@ -43,22 +43,22 @@ BenchmarkDotNet v0.15.0, Windows 11 (10.0.26100.4061/24H2/2024Update/HudsonValle
 - IterationCount=5
 - WarmupCount=2
 
-| Method        | Size     | Mean         | Error        | Allocated |
-|-------------- |--------- |-------------:|-------------:|----------:|
- **SimpleForSum**  | **100000**   |     **45.43 μs** |     **0.955 μs** |         **-** |
-| SimpleLinqSum | 100000   |    154.82 us |    62.620 us |      32 B |
-| ParallelSum   | 100000   |     66.78 us |     9.056 us |    4431 B |
-| PLinqSum      | 100000   |    144.98 us |    22.273 us |    7404 B |
-|               |          |              |              |           |
- **SimpleForSum**  | **1000000**  |    **451.91 μs** |     **3.404 μs** |         **-** |
-| SimpleLinqSum | 1000000  |  1,635.97 us |   338.400 us |      33 B |
-| ParallelSum   | 1000000  |    536.41 us |   193.621 us |    4598 B |
-| PLinqSum      | 1000000  |    813.23 us |    66.891 us |    7417 B |
-|               |          |              |              |           |
- **SimpleForSum**  | **10000000** |  **4,798.48 μs** |    **84.874 μs** |       **5 B** |
-| SimpleLinqSum | 10000000 | 14,731.54 us | 9,478.712 us |      44 B |
-| ParallelSum   | 10000000 |  3,938.82 us |   504.898 us |    4671 B |
-| PLinqSum      | 10000000 |  8,257.57 us |   776.855 us |    7427 B |
+| Method        | Size     | Mean        | Error      | Allocated |
+|-------------- |--------- |------------:|-----------:|----------:|
+| SimpleForSum  | 100000   |    37.00 us |   0.947 us |         - |
+| **SimpleLinqSum** | **100000**   |    **13.03 us** |   **0.947 us** |         - |
+| ParallelSum   | 100000   |    66.98 us |  14.606 us |    4603 B |
+| PLinqSum      | 100000   |    91.84 us |   3.574 us |    7211 B |
+|               |          |             |            |           |
+| SimpleForSum  | 1000000  |   394.42 us |   8.615 us |         - |
+| **SimpleLinqSum** | **1000000**  |   **127.71 us** |   **3.377 us** |         - |
+| ParallelSum   | 1000000  |   450.61 us |  34.370 us |    4576 B |
+| PLinqSum      | 1000000  |   386.15 us |  41.348 us |    7216 B |
+|               |          |             |            |           |
+| SimpleForSum  | 10000000 | 5,522.76 us | 407.705 us |       5 B |
+| SimpleLinqSum | 10000000 | 4,364.14 us | 476.896 us |       5 B |
+| ParallelSum   | 10000000 | 4,207.02 us | 853.166 us |    4744 B |
+| **PLinqSum**      | **10000000** | **3,154.68 us** | **281.252 us** |    7218 B |
 
 
 

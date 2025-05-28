@@ -6,7 +6,7 @@ namespace HomeWork03;
 [MemoryDiagnoser]
 public class ParallelBenchmark
 {
-    private int[] _data;
+    private long[] _data;
     private const int MinValue = -10_000;
     private const int MaxValue = 10_001;
 
@@ -17,7 +17,7 @@ public class ParallelBenchmark
     public void Setup()
     {
         var r = new Random(42);
-        _data = new int[Size];
+        _data = new long[Size];
         Parallel.For(0, Size, i =>
             _data[i] = r.Next(MinValue, MaxValue));
     }
@@ -37,7 +37,7 @@ public class ParallelBenchmark
     [Benchmark]
     public long SimpleLinqSum()
     {
-        return _data.Sum(e => (long)e);
+        return _data.Sum();
     }
 
     [Benchmark]
@@ -60,6 +60,6 @@ public class ParallelBenchmark
     {
         return _data
             .AsParallel()
-            .Sum(e => (long)e);
+            .Sum();
     }
 }
