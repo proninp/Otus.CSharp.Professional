@@ -8,6 +8,8 @@ public class GameSettings
     
     public int MinNumber  { get; set; }
     
+    public int AdditionalTriesCountLimiter { get; set; }
+    
     public bool AutoCompleteAttempts  { get; set; }
     
     public bool UpdateRanges  { get; set; }

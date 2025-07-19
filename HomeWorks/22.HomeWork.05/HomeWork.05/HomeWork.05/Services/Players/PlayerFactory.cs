@@ -10,9 +10,12 @@ public class PlayerFactory(IServiceProvider serviceProvider) : IPlayerFactory
     {
         return mode switch
         {
-            GameMode.PlayerVsComputer =>
+            GameMode.ComputerAsRiddlerVsPlayer =>
                 (serviceProvider.GetRequiredService<ComputerPlayer>(),
                     serviceProvider.GetRequiredService<HumanPlayer>()),
+            GameMode.PlayerAsRiddlerVsComputer =>
+                (serviceProvider.GetRequiredService<HumanPlayer>(),
+                    serviceProvider.GetRequiredService<ComputerPlayer>()),
             GameMode.PlayerVsPlayer =>
                 (serviceProvider.GetRequiredService<HumanPlayer>(),
                     serviceProvider.GetRequiredService<HumanPlayer>()),

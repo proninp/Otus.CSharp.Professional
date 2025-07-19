@@ -2,6 +2,7 @@ namespace HomeWork._05.Abstractions.Models;
 
 public enum GameMode
 {
-    PlayerVsPlayer = 1,
-    PlayerVsComputer = 2,
+    ComputerAsRiddlerVsPlayer = 1,
+    PlayerAsRiddlerVsComputer = 2,
+    PlayerVsPlayer = 3,
 }

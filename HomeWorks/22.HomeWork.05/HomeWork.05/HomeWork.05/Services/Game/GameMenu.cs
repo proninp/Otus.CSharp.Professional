@@ -8,15 +8,14 @@ namespace HomeWork._05.Services.Game;
 
 public class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<GameSettings> settings) : IGameMenu
 {
-    private readonly IGameEngine _gameEngine = gameEngine;
-    private readonly IPlayerInterface _ui = ui;
     private readonly GameSettings _settings = settings.Value;
 
     private const string StratNewGame = "Начать игру";
     private const string Instructions = "Интрукции";
     private const string Exit = "Выход";
 
-    private const string PlayerVsComputer = "Игрок против компьютера";
+    private const string ComputerAsRiddlerVsPlayer = "Загадывает компьютер, отгадывает игрок";
+    private const string PlayerAsRiddlerVsComputer = "Загадывает игрок, отгадывает компьютер";
     private const string PlayerVsPlayer = "Игрок против игрока";
 
     public void Run()
@@ -25,18 +24,18 @@ public class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<Game
         while (running)
         {
             Console.Clear();
-            var choices = _ui.PromptForMenu(StratNewGame, Instructions, Exit);
+            var choices = ui.PromptForMenu(StratNewGame, Instructions, Exit);
             switch (choices)
             {
                 case StratNewGame:
                     StartNewGame();
                     break;
                 case Instructions:
-                    _ui.ShowMessage(
+                    ui.ShowMessage(
                         $"Угадайте число т {_settings.MinNumber} до {_settings.MaxNumber}. После каждой попытки получите подсказку.");
                     break;
                 case Exit:
-                    _ui.ShowMessage("До свидания.");
+                    ui.ShowMessage("До свидания.");
                     running = false;
                     break;
             }
@@ -45,14 +44,16 @@ public class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<Game
 
     private void StartNewGame()
     {
-        var gameModeChoice = _ui.PromptForGameMode(PlayerVsComputer, PlayerVsPlayer);
+        var gameModeChoice =
+            ui.PromptForGameMode(ComputerAsRiddlerVsPlayer, PlayerAsRiddlerVsComputer, PlayerVsPlayer);
         var gameMode = gameModeChoice switch
         {
-            PlayerVsComputer => GameMode.PlayerVsComputer,
+            ComputerAsRiddlerVsPlayer => GameMode.ComputerAsRiddlerVsPlayer,
+            PlayerAsRiddlerVsComputer => GameMode.PlayerAsRiddlerVsComputer,
             PlayerVsPlayer => GameMode.PlayerVsPlayer,
             _ => throw new ArgumentOutOfRangeException(nameof(gameModeChoice),
                 $"Неподдерживаемый режим игры: {gameModeChoice}")
         };
-        _gameEngine.Play(gameMode);
+        gameEngine.Play(gameMode);
     }
 }
