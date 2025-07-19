@@ -1,4 +1,4 @@
-﻿namespace HomeWork._05.Abstractions;
+﻿namespace HomeWork._05.Core.Abstractions.Players;
 
 public interface IPlayer
 {

@@ -1,9 +1,8 @@
-﻿using HomeWork._05.Abstractions;
-using HomeWork._05.Game.Abstractions;
+﻿using HomeWork._05.Core.Abstractions.Players;
 
-namespace HomeWork._05.Game;
+namespace HomeWork._05.Services;
 
-public class HumanPlayer : Player
+public class HumanPlayer(int minNumber, int maxNumber) : Player(minNumber, maxNumber)
 {
     public override int TryGuessNumber()
     {

@@ -1,4 +1,4 @@
-﻿namespace HomeWork._05.Abstractions;
+﻿namespace HomeWork._05.Core.Abstractions.UI;
 
 public interface IPlayerInterface
 {
@@ -7,6 +7,6 @@ public interface IPlayerInterface
     int PromptForNumber(string prompt, int min, int max);
     
     string PromptForMenu(params string[] options);
-
-    void WaitForKey();
+    
+    string PromptForGameMode(params string[] options);
 }

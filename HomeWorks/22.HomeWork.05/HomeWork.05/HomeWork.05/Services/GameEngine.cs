@@ -1,43 +1,48 @@
-﻿using HomeWork._05.Abstractions;
+﻿using HomeWork._05.Abstractions.Models;
+using HomeWork._05.Core.Abstractions.Game;
+using HomeWork._05.Core.Abstractions.Players;
+using HomeWork._05.Core.Abstractions.Utils;
+using HomeWork._05.Settings;
+using Microsoft.Extensions.Options;
 
-namespace HomeWork._05.Game;
+namespace HomeWork._05.Services;
 
-public class GameEngine : IGameEngine
+public class GameEngine(
+    IOptions<GameSettings> settings,
+    INumberGenerator numberGenerator,
+    INumberGuesser numberGuesser,
+    IPlayerFactory playerFactory)
+    : IGameEngine
 {
-    private int _riddledNumber;
-    private int _triesCount;
-    public IPlayer? Player1 { get; private set; }
-    public IPlayer? Player2 { get; private set; }
+    private readonly GameSettings _settings = settings.Value;
+    private readonly IPlayerFactory _playerFactory = playerFactory;
+    private readonly INumberGenerator _numberGenerator = numberGenerator;
+    private readonly INumberGuesser _numberGuesser = numberGuesser;
+    private GameMode _mode = GameMode.PlayerVsComputer;
     
-    public void StartNewGame(IPlayer player1, IPlayer player2)
-    {
-        Player1 = player1;
-        Player2 = player2;
-        _riddledNumber = Player1.RiddleTheNumber();
-        _triesCount = 0;
+    private int _triesCount;
 
-        while (!MakeMove())
-        {
-            Console.WriteLine("Take one more try");
-            _triesCount++;
-        }
-    }
+    private Player? _player1;
+    private Player? _player2;
 
-    public void StartNewGame()
+    public bool Play(GameMode mode)
     {
-        throw new NotImplementedException();
-    }
+        
+        
+        if (_player1 is null || _player2 is null)
+            throw new NullReferenceException("Игроки не были созданы. Проверьте фабрику игроков.");
 
-    public bool MakeMove()
-    {
-        if (Player1 is null || Player2 is null)
-            throw new NullReferenceException("Players have not been initialized");
-        var guess = Player2.TryGuessNumber();
-        if (guess == _riddledNumber)
-        {
-            Console.WriteLine($"Player wins with {_triesCount} tries");
-            return true;
-        }
+        var riddledNumber = _player1.RiddleTheNumber();
+        
+        
+
         return false;
+    }
+
+    private void Initialize(GameMode mode)
+    {
+        _mode = mode;
+        (_player1, _player2) = _playerFactory.CreatePlayers(_mode);
+        
     }
 }

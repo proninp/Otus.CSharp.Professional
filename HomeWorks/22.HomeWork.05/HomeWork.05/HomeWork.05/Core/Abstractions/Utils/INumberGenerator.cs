@@ -1,4 +1,4 @@
-﻿namespace HomeWork._05.Game.Abstractions;
+﻿namespace HomeWork._05.Core.Abstractions.Utils;
 
 public interface INumberGenerator
 {

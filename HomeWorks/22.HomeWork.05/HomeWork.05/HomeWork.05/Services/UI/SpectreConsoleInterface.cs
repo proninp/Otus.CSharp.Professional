@@ -1,7 +1,7 @@
-﻿using HomeWork._05.Abstractions;
+﻿using HomeWork._05.Core.Abstractions.UI;
 using Spectre.Console;
 
-namespace HomeWork._05.Services;
+namespace HomeWork._05.Services.UI;
 
 public class SpectreConsoleInterface : IPlayerInterface
 {
@@ -23,6 +23,14 @@ public class SpectreConsoleInterface : IPlayerInterface
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("[bold yellow]Выберите действие:[/]")
+                .AddChoices(options));
+    }
+
+    public string PromptForGameMode(params string[] options)
+    {
+        return AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("[bold yellow]Выберите режим игры:[/]")
                 .AddChoices(options));
     }
 
