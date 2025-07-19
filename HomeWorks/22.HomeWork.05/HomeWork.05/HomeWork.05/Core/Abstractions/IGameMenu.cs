@@ -1,6 +1,6 @@
 ﻿namespace HomeWork._05.Abstractions;
 
-public interface IPlayer
+public interface IGameMenu
 {
-    int Guess();
+    void Run();
 }
