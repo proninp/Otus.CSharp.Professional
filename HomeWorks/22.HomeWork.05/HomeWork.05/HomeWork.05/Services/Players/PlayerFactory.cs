@@ -11,8 +11,8 @@ public class PlayerFactory(IServiceProvider serviceProvider) : IPlayerFactory
         return mode switch
         {
             GameMode.PlayerVsComputer =>
-                (serviceProvider.GetRequiredService<HumanPlayer>(),
-                    serviceProvider.GetRequiredService<ComputerPlayer>()),
+                (serviceProvider.GetRequiredService<ComputerPlayer>(),
+                    serviceProvider.GetRequiredService<HumanPlayer>()),
             GameMode.PlayerVsPlayer =>
                 (serviceProvider.GetRequiredService<HumanPlayer>(),
                     serviceProvider.GetRequiredService<HumanPlayer>()),

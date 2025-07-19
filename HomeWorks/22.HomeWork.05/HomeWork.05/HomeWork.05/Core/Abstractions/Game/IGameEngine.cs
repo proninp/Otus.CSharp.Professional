@@ -5,5 +5,5 @@ namespace HomeWork._05.Core.Abstractions.Game;
 
 public interface IGameEngine
 {
-    bool Play(GameMode mode);
+    void Play(GameMode mode);
 }

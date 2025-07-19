@@ -1,14 +1,18 @@
-﻿namespace HomeWork._05.Core.Abstractions.Players;
+﻿using HomeWork._05.Abstractions.Models;
+using HomeWork._05.Settings;
+using Microsoft.Extensions.Options;
 
-public abstract class Player(int minNumber, int maxNumber) : IPlayer
+namespace HomeWork._05.Core.Abstractions.Players;
+
+public abstract class Player(IOptions<GameSettings> settings) : IPlayer
 {
-    public bool IsShowUiNotifications { get; protected set; }
+    private protected int MinNumber { get; set; } = settings.Value.MinNumber;
 
-    public int MinNumber { get; set; } = minNumber;
+    private protected int MaxNumber { get; set; } = settings.Value.MaxNumber;
 
-    public int MaxNumber { get; set; } = maxNumber;
-    
     public abstract int TryGuessNumber();
 
     public abstract int RiddleTheNumber();
+    
+    public abstract void Hint(GuessOutcome outcome);
 }

@@ -4,7 +4,7 @@ using HomeWork._05.Core.Abstractions.UI;
 using HomeWork._05.Settings;
 using Microsoft.Extensions.Options;
 
-namespace HomeWork._05.Services;
+namespace HomeWork._05.Services.Game;
 
 public class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<GameSettings> settings) : IGameMenu
 {
