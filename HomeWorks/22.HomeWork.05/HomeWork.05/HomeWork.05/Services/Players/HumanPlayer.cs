@@ -1,46 +1,55 @@
-﻿using HomeWork._05.Abstractions.Models;
-using HomeWork._05.Core.Abstractions.Players;
+﻿using HomeWork._05.Core.Abstractions.Players;
 using HomeWork._05.Core.Abstractions.UI;
+using HomeWork._05.Core.Models;
 using HomeWork._05.Settings;
 using Microsoft.Extensions.Options;
 
 namespace HomeWork._05.Services.Players;
 
-public class HumanPlayer(
+/// <summary>
+/// Человеческий игрок, взаимодействующий через пользовательский интерфейс
+/// </summary>
+public sealed class HumanPlayer(
     IOptions<GameSettings> settings,
     IPlayerInterface ui
-) : Player(settings)
+) : PlayerBase(settings), IPlayer
 {
     private readonly GameSettings _settings = settings.Value;
 
-    public override int TryGuessNumber()
+    /// <summary>
+    /// Запросить у пользователя число для угадывания
+    /// </summary>
+    /// <returns>Число, введенное пользователем</returns>
+    public int GuessNumber()
     {
-        return ui.PromptForNumber($"Угадайте число от {_settings.MinNumber} до {_settings.MaxNumber}:",
-            _settings.MinNumber,
-            _settings.MaxNumber);
+        return ui.PromptForNumber($"Угадайте число от {GameRange.Min} до {GameRange.Max}:",
+            GameRange.Min,
+            GameRange.Max);
     }
 
-    public override int RiddleTheNumber() =>
-        ui.PromptForNumber($"Загадайте число от {_settings.MinNumber} до {_settings.MaxNumber}:",
-            _settings.MinNumber,
-            _settings.MaxNumber);
+    /// <summary>
+    /// Запросить у пользователя число для загадывания
+    /// </summary>
+    /// <returns>Число, введенное пользователем</returns>
+    public int RiddleNumber() =>
+        ui.PromptForNumber($"Загадайте число от {GameRange.Min} до {GameRange.Max}:",
+            GameRange.Min,
+            GameRange.Max);
 
-    public override void Hint(GuessOutcome outcome)
+    /// <summary>
+    /// Показать пользователю подсказку о результате угадывания
+    /// </summary>
+    /// <param name="outcome">Результат попытки угадывания</param>
+    public void ReceiveHint(GuessOutcome outcome)
     {
-        switch (outcome)
+        var message = outcome switch
         {
-            case GuessOutcome.TooHigh:
-                ui.ShowMessage("Загаданное число меньше. Попробуйте еще раз.");
-                break;
-            case GuessOutcome.TooLow:
-                ui.ShowMessage("Загаданное число больше. Попробуйте еще раз.");
-                break;
-            case GuessOutcome.Correct:
-                ui.ShowMessage("Поздравляем! Вы отгадали число!");
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(outcome),
-                    $"Неподдерживаемый результат угадывания: {outcome}");
-        }
+            GuessOutcome.TooHigh => "Загаданное число меньше. Попробуйте еще раз.",
+            GuessOutcome.TooLow => "Загаданное число больше. Попробуйте еще раз.",
+            GuessOutcome.Correct => "Поздравляем! Вы отгадали число!",
+            _ => throw new ArgumentOutOfRangeException(nameof(outcome),
+                $"Неподдерживаемый результат угадывания: {outcome}")
+        };
+        ui.ShowMessage(message);
     }
 }

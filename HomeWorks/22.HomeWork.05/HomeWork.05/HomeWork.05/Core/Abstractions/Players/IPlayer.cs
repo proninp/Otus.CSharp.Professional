@@ -1,12 +1,10 @@
-﻿using HomeWork._05.Abstractions.Models;
+﻿using HomeWork._05.Core.Models;
 
 namespace HomeWork._05.Core.Abstractions.Players;
 
-public interface IPlayer
+/// <summary>
+/// Комбинированный интерфейс для универсального игрока
+/// </summary>
+public interface IPlayer : INumberGuesser, INumberRiddler
 {
-    int TryGuessNumber();
-
-    int RiddleTheNumber();
-
-    void Hint(GuessOutcome outcome);
 }

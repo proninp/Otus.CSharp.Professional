@@ -1,47 +1,60 @@
-﻿using HomeWork._05.Abstractions.Models;
+﻿using Microsoft.Extensions.Options;
 using HomeWork._05.Core.Abstractions.Players;
 using HomeWork._05.Core.Abstractions.UI;
 using HomeWork._05.Core.Abstractions.Utils;
+using HomeWork._05.Core.Models;
 using HomeWork._05.Settings;
-using Microsoft.Extensions.Options;
 
 namespace HomeWork._05.Services.Players;
 
-public class ComputerPlayer(
+public sealed class ComputerPlayer(
     IOptions<GameSettings> settings,
     INumberGenerator numberGenerator,
-    INumberGuesser numberGuesser,
     IPlayerInterface ui)
-    : Player(settings)
+    : PlayerBase(settings), IPlayer
 {
-    private int _lastGuessedNumber = 0;
+    private int _lastGuess;
 
-    public override int TryGuessNumber()
+    /// <summary>
+    /// Угадать число, используя стратегию бинарного поиска
+    /// </summary>
+    /// <returns>Предполагаемое число</returns>
+    public int GuessNumber()
     {
         Task.Delay(1000).Wait(); // Имитация задержки для "размышления" компьютера
-        _lastGuessedNumber = numberGuesser.Guess(MinNumber, MaxNumber);
-        return _lastGuessedNumber;
+        _lastGuess = (GameRange.Min + GameRange.Max) / 2;
+        ui.ShowMessage($"Компьютер предполагает число: {_lastGuess}");
+        
+        return _lastGuess;
     }
+    
+    /// <summary>
+    /// Загадать случайное число в диапазоне
+    /// </summary>
+    /// <returns>Загаданное число</returns>
+    public int RiddleNumber() =>
+        numberGenerator.GetRandomNumber(GameRange.Min, GameRange.Max);
 
-    public override int RiddleTheNumber() =>
-        numberGenerator.GetRandomNumber(MinNumber, MaxNumber);
-
-    public override void Hint(GuessOutcome outcome)
+    /// <summary>
+    /// Получить подсказку и скорректировать стратегию поиска
+    /// </summary>
+    /// <param name="outcome">Результат предыдущей попытки</param>
+    public void ReceiveHint(GuessOutcome outcome)
     {
-        switch (outcome)
+        var newRange = outcome switch
         {
-            case GuessOutcome.TooHigh:
-                MaxNumber = _lastGuessedNumber - 1;
-                break;
-            case GuessOutcome.TooLow:
-                MinNumber = _lastGuessedNumber + 1;
-                break;
-            case GuessOutcome.Correct:
-            default:
-                return;
+            GuessOutcome.TooHigh => GameRange.WithMax(_lastGuess - 1),
+            GuessOutcome.TooLow => GameRange.WithMin(_lastGuess + 1),
+            GuessOutcome.Correct => GameRange,
+            _ => throw new ArgumentOutOfRangeException(nameof(outcome), 
+                $"Неизвестный результат угадывания: {outcome}")
+        };
+        if (outcome != GuessOutcome.Correct)
+        {
+            UpdateRange(newRange);
+            ui.ShowMessage(
+                $"Компьютер предположил, что загаданно число: {_lastGuess}, но не угадал и получил подсказку: " +
+                $"число должно быть в диапазоне от {GameRange.Min} до {GameRange.Max}.");
         }
-        ui.ShowMessage(
-            $"Компьютер предположил, что загаданно число: {_lastGuessedNumber}, но не угадал и получил подсказку: " +
-            $"число должно быть в диапазоне от {MinNumber} до {MaxNumber}.");
     }
 }

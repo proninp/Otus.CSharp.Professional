@@ -1,12 +1,24 @@
-﻿using HomeWork._05.Abstractions.Models;
-using HomeWork._05.Core.Abstractions.Game;
+﻿using HomeWork._05.Core.Abstractions.Game;
 using HomeWork._05.Core.Abstractions.UI;
+using HomeWork._05.Core.Models;
 using HomeWork._05.Settings;
 using Microsoft.Extensions.Options;
 
 namespace HomeWork._05.Services.Game;
 
-public class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<GameSettings> settings) : IGameMenu
+/// <summary>
+/// Реализация главного меню игры "Угадай число"
+/// </summary>
+/// <remarks>
+/// Предоставляет пользователю:
+/// - Возможность начать новую игру в разных режимах
+/// - Просмотреть инструкции
+/// - Выйти из приложения
+/// </remarks>
+/// <param name="gameEngine">Движок игры для управления игровыми сессиями</param>
+/// <param name="ui">Интерфейс пользователя для ввода/вывода</param>
+/// <param name="settings">Настройки игры (диапазон чисел)</param>
+public sealed class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<GameSettings> settings) : IGameMenu
 {
     private readonly GameSettings _settings = settings.Value;
 
@@ -18,6 +30,13 @@ public class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<Game
     private const string PlayerAsRiddlerVsComputer = "Загадывает игрок, отгадывает компьютер";
     private const string PlayerVsPlayer = "Игрок против игрока";
 
+    /// <summary>
+    /// Запускает и управляет главным циклом меню
+    /// </summary>
+    /// <remarks>
+    /// Цикл продолжается до выбора пользователем пункта "Выход".
+    /// При каждом проходе очищает консоль и отображает главное меню.
+    /// </remarks>
     public void Run()
     {
         var running = true;
@@ -44,6 +63,16 @@ public class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<Game
         }
     }
 
+    /// <summary>
+    /// Обрабатывает запуск новой игры
+    /// </summary>
+    /// <remarks>
+    /// Запрашивает у пользователя выбор режима игры и запускает соответствующий режим через игровой движок.
+    /// Поддерживает три режима игры:
+    /// 1. Компьютер загадывает - игрок угадывает
+    /// 2. Игрок загадывает - компьютер угадывает
+    /// 3. Игрок против игрока
+    /// </remarks>
     private void StartNewGame()
     {
         var gameModeChoice =
