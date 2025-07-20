@@ -30,10 +30,10 @@ public class HumanPlayer(
         switch (outcome)
         {
             case GuessOutcome.TooHigh:
-                ui.ShowMessage("Загаданное число больше. Попробуйте еще раз.");
+                ui.ShowMessage("Загаданное число меньше. Попробуйте еще раз.");
                 break;
             case GuessOutcome.TooLow:
-                ui.ShowMessage("Загаданное число меньше. Попробуйте еще раз.");
+                ui.ShowMessage("Загаданное число больше. Попробуйте еще раз.");
                 break;
             case GuessOutcome.Correct:
                 ui.ShowMessage("Поздравляем! Вы отгадали число!");

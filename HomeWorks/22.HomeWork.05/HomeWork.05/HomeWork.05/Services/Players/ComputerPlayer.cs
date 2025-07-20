@@ -18,6 +18,7 @@ public class ComputerPlayer(
 
     public override int TryGuessNumber()
     {
+        Task.Delay(1000).Wait(); // Имитация задержки для "размышления" компьютера
         _lastGuessedNumber = numberGuesser.Guess(MinNumber, MaxNumber);
         return _lastGuessedNumber;
     }
@@ -41,6 +42,6 @@ public class ComputerPlayer(
         }
         ui.ShowMessage(
             $"Компьютер предположил, что загаданно число: {_lastGuessedNumber}, но не угадал и получил подсказку: " +
-            $"число должно быть в диапазоне [{MinNumber}, {MaxNumber}].");
+            $"число должно быть в диапазоне от {MinNumber} до {MaxNumber}.");
     }
 }

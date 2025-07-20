@@ -34,9 +34,12 @@ public class SpectreConsoleInterface : IPlayerInterface
                 .AddChoices(options));
     }
 
-    public void WaitForKey()
+    public void WaitForKey(bool isShowMessage = true)
     {
-        AnsiConsole.MarkupLine("[grey]Нажмите любую клавишу...[/]");
+        if (isShowMessage)
+        {
+            AnsiConsole.MarkupLine("[grey]Нажмите любую клавишу...[/]");
+        }
         Console.ReadKey();
     }
 }

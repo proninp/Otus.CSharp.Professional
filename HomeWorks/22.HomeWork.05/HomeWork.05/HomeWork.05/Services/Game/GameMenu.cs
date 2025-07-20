@@ -29,10 +29,12 @@ public class GameMenu(IGameEngine gameEngine, IPlayerInterface ui, IOptions<Game
             {
                 case StratNewGame:
                     StartNewGame();
+                    ui.WaitForKey();
                     break;
                 case Instructions:
                     ui.ShowMessage(
-                        $"Угадайте число т {_settings.MinNumber} до {_settings.MaxNumber}. После каждой попытки получите подсказку.");
+                        $"Угадайте число от {_settings.MinNumber} до {_settings.MaxNumber}. После каждой попытки получите подсказку.");
+                    ui.WaitForKey();
                     break;
                 case Exit:
                     ui.ShowMessage("До свидания.");

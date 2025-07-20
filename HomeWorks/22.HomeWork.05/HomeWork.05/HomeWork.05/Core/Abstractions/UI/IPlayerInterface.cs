@@ -9,4 +9,6 @@ public interface IPlayerInterface
     string PromptForMenu(params string[] options);
     
     string PromptForGameMode(params string[] options);
+    
+    void WaitForKey(bool isShowMessage = true);
 }
