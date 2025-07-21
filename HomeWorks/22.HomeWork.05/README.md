@@ -112,3 +112,31 @@ HomeWorks/22.HomeWork.05/
 ![example02](res/p02.png)
 
 ![example03](res/p03.png)
+
+
+## Применение принципов SOLID
+
+### Single Responsibility Principle (SRP)
+- `GameCalculator` - только вычисления
+- `RoundManager` - только управление раундами  
+- `PlayerFactory` - только создание игроков
+- `GameResultEvaluator` - только оценка результатов
+
+### Open/Closed Principle (OCP)
+- Новые типы игроков через интерфейсы `IPlayer`
+- Новые UI реализации через `IPlayerInterface`
+- Расширяемые стратегии через `INumberGuesser`
+
+### Liskov Substitution Principle (LSP)
+- Все реализации `IPlayer` взаимозаменяемы
+- `ComputerPlayer` и `HumanPlayer` корректно заменяют базовые типы
+
+### Interface Segregation Principle (ISP)
+- `INumberGuesser` - только угадывание
+- `INumberRiddler` - только загадывание
+- `IPlayer` - комбинированный интерфейс
+
+### Dependency Inversion Principle (DIP)
+- Все зависимости направлены на абстракции
+- DI контейнер управляет созданием объектов
+- Слабая связанность между компонентами
