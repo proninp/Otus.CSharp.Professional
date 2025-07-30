@@ -39,3 +39,37 @@
 1 балл: CodeStyle, грамотная архитектура, всё замечания проверяющего исправлены
 
 Минимальное количество баллов для сдачи: 6
+
+
+## Решение
+
+```bash
+Исходный объект: { I1 = 1, I2 = 2, D1 = 3, Dec4 = 4, Ch1 = C, S1 = FooBar }
+Reflection сериализация: {I1: 1, I2: 2, D1: 3, Dec4: 4, Ch1: C, S1: FooBar}
+Время reflection сериализации: 1214,00 мкс
+
+JSON сериализация: {"Ch1":"C","S1":"FooBar"}
+Время JSON сериализации: 31314,60 мкс
+
+Reflection десериализация: { I1 = 1, I2 = 2, D1 = 3, Dec4 = 4, Ch1 = C, S1 = FooBar }
+Время reflection десериализации: 22999,30 мкс
+
+JSON десериализация: { I1 = 0, I2 = 0, D1 = 0, Dec4 = 0, Ch1 = C, S1 = FooBar }
+Время JSON десериализации: 3289,30 мкс
+```
+
+**Результаты Benchmark.NET**
+
+BenchmarkDotNet v0.15.2, Windows 11
+.NET SDK 8.0.404
+  [Host]     : .NET 8.0.14 (8.0.1425.11118), X64 RyuJIT AVX2
+  Job-JDKDCE : .NET 8.0.14 (8.0.1425.11118), X64 RyuJIT AVX2
+
+IterationCount=100  WarmupCount=2  
+
+ Method                    | Mean       | Error   | Allocated |
+-------------------------- |-----------:|--------:|----------:|
+ ReflectionSerialization   |   447.7 ns | 4.30 ns |     848 B |
+ JsonSerialization         |   210.1 ns | 0.25 ns |      72 B |
+ ReflectionDeserialization | 1,547.8 ns | 9.27 ns |    2176 B |
+ JsonDeserialization       |   307.7 ns | 2.33 ns |     104 B |
